@@ -1,0 +1,58 @@
+<div class="text-center">
+    <img src="../../../assets/logo_plane.png" alt="plane logo">
+</div>
+<h1>Find your flight</h1>
+<hr>
+<div *ngIf="showFind" class="search">
+    <form>
+        <div>
+            <h5>From:</h5>
+            <input type="text" class="form-control" name="from" placeholder="City or Airport" [(ngModel)]="from" (keyup)="searchFromLoc()">
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-action" *ngFor="let Location of fromLocation" (click)="setOrigin(Location);
+                    from=Location.name+', '+ Location.address.cityCode">
+                    <h5 class=" list-group-item-heading">Airport: {{ Location.name }}</h5>
+                    <p class="list-group-item-text">Country: {{ Location.address.countryName }}</p>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <h5>To:</h5>
+            <input type="text" class="form-control" name="to" placeholder="City or Airport" [(ngModel)]="to" (keyup)="searchToLoc()">
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-action" *ngFor="let Location of toLocation" (click)="setDest(Location);
+                    to=Location.name+', '+ Location.address.cityCode">
+                    <h5 class=" list-group-item-heading">Airport: {{ Location.name }}</h5>
+                    <p class="list-group-item-text">Country: {{ Location.address.countryName }}</p>
+                </li>
+            </ul>
+        </div>
+
+        <div>
+            <h5>Date:</h5>
+            <input type="text" onfocus="(this.type='date')" onblur="(this.type='text')" class="form-control" name="date" placeholder="Enter the date" [(ngModel)]="date">
+            <br>
+            <div class="text-center">
+                <button class="btn btn-secondary search-btn" (click)="onShowFlights()">Show</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div *ngIf="showFlights" class="found">
+    <p *ngIf="waitText" class="waitText">Wait a moment...</p>
+    <div *ngFor="let flight of flights">
+        <div class="card-header"><span class="result">Price: </span>{{ flight.price.total }} ({{ flight.price.currency }})</div>
+        <div class="card-body">
+            <p *ngFor="let i of flight.itineraries[0].segments">
+                <span class="result">Departure: </span>{{ i.departure.iataCode }}
+                <span class="result">at </span>{{ i.departure.at | date:'short' }}
+                &nbsp;
+                <span class="result">Arrival: </span>{{ i.arrival.iataCode }}
+                <span class="result">at </span>{{ i.arrival.at | date:'short' }}
+            </p>
+            <hr>
+        </div>
+    </div>
+    <button class="btn btn-light" *ngIf="showFlights" (click)="showFind=!showFind; showFlights=!showFlights">
+        < </button>
+</div>

@@ -15,3 +15,12 @@ in: \
 flight-searching\fs-frontend \
 run: \
 npm start
+
+
+
+# Screenshot - application preview
+<img src=".\src\assets\ss.jpg" alt="Screenshot-Flight-Searching">
+
+# Development directions
+-> services (for API handle, etc.) \
+-> routing
